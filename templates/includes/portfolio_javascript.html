@@ -1,0 +1,34 @@
+{% load staticfiles  %}
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="static/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<!--<script src="{% static 'js/bootstrap.js' %}"></script>-->
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!--<script src="{% static 'js/plugins.js' %}"></script>-->
+<!--<script src="{% static 'js/portfolio_main.js' %}"></script>-->
+<script src="{% static 'js/jquery.galereya.min.js' %}"></script>
+<script src="{% static 'js/jquery.galereya.js' %}"></script>
+<script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+<script>
+    $('#gal1').galereya();
+
+    (function($){
+        $(window).on("load",function(){
+            $("#trump .trump").mCustomScrollbar({
+					setHeight:600,
+					theme:"rounded-dots",
+                    axis:"y"
+				});
+        });
+    })(jQuery);
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/uk_UA/sdk.js#xfbml=1&version=v2.7";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+</script>

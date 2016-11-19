@@ -1,0 +1,53 @@
+{% extends 'base_portfolio.html' %}
+{% load staticfiles %}
+
+{% block content%}
+  {% include 'includes/portfolio_navbar.html' %}
+
+<br><br><br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar" id="trump">
+          <div class="trump" style="height: auto; max-height: 80%;">
+            <br><br>
+              <ul class="nav nav-sidebar">
+                <li {% if not category %}class="selected"{% endif %}>
+                  <a href="{% url 'portfolio:portfolio_image_list' %}#disqus_thread">All</a>
+                </li>
+                {% for c in categories %}
+                <li {% if category.slug == c.slug %}class="selected"{% endif %}>
+                  <a href="{{ c.get_absolute_url }}#disqus_thread">{{ c.name }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+          </div>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">{% if category %}{{ category.name }}{% else %}All Categories{% endif %}</h1>
+          {% if quantity  %}
+            <p> Number of photos in this album: {{quantity}}</p>
+          {% else  %}
+            <p> No photos in this album</p>
+          {% endif %}
+          <!--{% if messages %}-->
+            <!--<div class="alert alert-success" role="alert">{{message}}</div>-->
+          <!--{% endif %}-->
+          <div id="gal1">
+            {% for image in images %}
+            <img src="{% if image.image %}{{ image.image.url }}{% else %}{% static 'img/no_image.jpg' %}{% endif %}"
+            alt="{{ image.name }}"
+            title='<a href="{{ image.get_absolute_url }}" title="Detail View"><p>{{ image.name }}</p></a>{%if user.is_superuser%}<a href="{% url "portfolio:portfolio_image_update" image.id image.slug %}"title="Detail View">Change</a>{%endif%}'
+            data-desc="{{ image.description }}"
+            data-category=""
+            data-fullsrc="{% if image.image %}{{ image.image.url }}{% else %}{% static 'images/no_image.jpg' %}{% endif %}"/>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+{% endblock content%}
+
+
+

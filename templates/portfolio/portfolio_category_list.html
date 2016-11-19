@@ -1,0 +1,83 @@
+{% extends 'base_portfolio.html' %}
+{% load staticfiles %}
+{% load bootstrap %}
+{% block head_title %}
+  Edit Category
+{% endblock head_title %}
+{% block content%}
+{% include 'includes/portfolio_navbar.html' %}
+<!--suppress ALL -->
+<style>
+  .panel-group {
+      text-align: left;
+  }
+  .list-group-item {
+      background-color: #fffdd5;
+      color: #333;
+  }
+  a, a:focus, a:hover {
+    color: lightseagreen;
+}
+  .list-group-item a, a:focus a:hover {
+    color: green;
+}
+  .panel-footer {
+    border-bottom: 5px solid lightblue;
+      color: #ff6968;
+}
+</style>
+<div class="container">
+  <div class="row" style="margin-top: 60px;">
+    <div class="col-sm-6 col-sm-offset-3">
+      <h2>Categories list</h2>
+      <p><a href="{% url 'portfolio:portfolio_category_create' %}">Create Category</a></p>
+      <div class=panel-group role=tablist>
+        <div class="panel panel-default">
+          {% for category in categories  %}
+          <div class=panel-heading role=tab id=collapseListGroupHeading{{category.id}}>
+            <h4 class=panel-title>
+              <a href=#{{category.id}} class=collapsed role=button data-toggle=collapse aria-expanded=false aria-controls=collapseListGroup{{category.id}}><i class="fa fa-sort-amount-asc" aria-hidden="true"></i> {{category.name}} List</a> |
+              <a href="{% url 'portfolio:portfolio_category_detail' category.slug %}"><i class="fa fa-search" aria-hidden="true"></i>
+ Details</a> |
+              <a href="{% url 'portfolio:portfolio_category_update' category.slug %}"><i class="fa fa-gavel" aria-hidden="true"></i>
+ Change</a> |
+              <a href="#my{{category.name}}delete" data-toggle="modal"><i class="fa fa-trash-o fa-lg"></i> Delete</a> |
+                    <!-- Modal -->
+                <div class="modal fade" id="my{{category.name}}delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="background-color: #838168;">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalDeleteLabel">Delete {{category.name}}</h4>
+                      </div>
+                      <div class="modal-body">
+                        You are going to delete {{category.name}}! Are you sure?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <a href="{% url 'portfolio:portfolio_category_delete' category.slug %}">
+                          <button type="button" class="btn btn-danger">Delete anyway</button>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </h4>
+          </div>
+          <div class="collapse panel-collapse" role=tabpanel id={{category.id}} aria-labelledby=collapseListGroupHeading{{category.id}}>
+            <ul class=list-group>
+              {% for image in images %}
+                  {% if image.category.name == category.name %}
+                    <li class=list-group-item><a href="{{image.get_absolute_url}}" title="Detail View">{{image.name}}</a> | <a href="{% url 'portfolio:portfolio_image_update' image.id image.slug %}" title="Change Form">Change</a></li>
+                  {% endif %}
+              {% endfor  %}
+            </ul>
+            <div class=panel-footer>End of {{category.name}}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content%}

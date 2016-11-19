@@ -1,0 +1,27 @@
+{% extends 'base_portfolio.html' %}
+{% load staticfiles %}
+{% load bootstrap %}
+{% block head_title %}
+  Edit Image
+{% endblock head_title %}
+{% block content%}
+{% include 'includes/portfolio_navbar.html' %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <form role="form" method="POST" enctype="multipart/form-data" action="">
+        <legend>Image Adding Form</legend>
+        {% csrf_token %}
+        <p style="text-align: left; color: greenyellow; padding-top:15px;"><a href="{% url 'portfolio:portfolio_category_create' %}" style="color: greenyellow;">Create Category</a></p>
+        {{ form|bootstrap }}
+        <div class="form-group">
+          <a href="javascript:history.back();">
+            <button type="button" class="btn btn-default">Cancel</button>
+          </a>
+          <button type="submit" class="btn btn-success">Save Image</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content%}

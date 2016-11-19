@@ -1,0 +1,30 @@
+{% extends 'base_portfolio.html' %}
+{% load staticfiles %}
+{% load bootstrap %}
+{% block head_title %}
+  Edit About Me
+{% endblock head_title %}
+{% block content%}
+{% include 'includes/portfolio_navbar.html' %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      {% if user.is_superuser  %}
+      <form role="form" method="POST" enctype="multipart/form-data" action="">
+        <legend>About Me Form</legend>
+        {% csrf_token %}
+        {{ form|bootstrap }}
+        <div class="form-group">
+          <a href="javascript:history.back();">
+            <button type="button" class="btn btn-default">Back</button>
+          </a>
+          <button type="submit" class="btn btn-success">Save</button>
+        </div>
+      </form>
+      {% else %}
+        <h1>Staff Only</h1>
+      {% endif  %}
+    </div>
+  </div>
+</div>
+{% endblock content%}

@@ -1,0 +1,17 @@
+{% extends 'base_portfolio.html' %}
+{% load staticfiles %}
+{% block content%}
+{% include 'includes/portfolio_navbar.html' %}
+<br><br><br>
+<div class="container-fluid" style="">
+  <div class="row">
+    <div class="col-xs-8 col-xs-offset-2" >
+      <p>Category Name: {{instance.name}}</p>
+      <p>Category Description: {{instance.description}}</p>
+      <a href="javascript:history.back();">
+        <button type="button" class="btn btn-default">Back</button>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock content%}

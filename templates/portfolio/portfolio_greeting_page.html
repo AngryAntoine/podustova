@@ -1,0 +1,283 @@
+{% load staticfiles %}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hi there!</title>
+<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+<style>
+[data-am-gallery] {
+ position: relative;
+ width: 100%;
+ height: 100%;
+ background-color: #fff;
+}
+
+[data-am-gallery] .image {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  -webkit-transition: opacity 1000ms ease;
+  transition: opacity 1000ms ease;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+[data-am-gallery] input[type="radio"] {
+  position: fixed;
+  top: -9999px;
+}
+
+[data-am-gallery] input[type="radio"]:checked { /* This loop handles the image switching and dot active state */
+}
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(5) ~ .images .image:nth-child(5) { opacity: 1; }
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(5) ~ .navigation .dot:nth-child(5) { background-color: coral; }
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(5) ~ .navigation .dot:nth-child(5):hover { opacity: 1; }
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(4) ~ .images .image:nth-child(4) { opacity: 1; }
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(4) ~ .navigation .dot:nth-child(4) { background-color: coral; }
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(4) ~ .navigation .dot:nth-child(4):hover { opacity: 1; }
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(3) ~ .images .image:nth-child(3) { opacity: 1; }
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(3) ~ .navigation .dot:nth-child(3) { background-color: coral; }
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(3) ~ .navigation .dot:nth-child(3):hover { opacity: 1; }
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(2) ~ .images .image:nth-child(2) { opacity: 1; }
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(2) ~ .navigation .dot:nth-child(2) { background-color: coral; }
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(2) ~ .navigation .dot:nth-child(2):hover { opacity: 1; }
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(1) ~ .images .image:nth-child(1) { opacity: 1; }
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(1) ~ .navigation .dot:nth-child(1) { background-color: coral; }
+
+[data-am-gallery] input[type="radio"]:checked:nth-child(1) ~ .navigation .dot:nth-child(1):hover { opacity: 1; }
+
+[data-am-gallery] .navigation {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+[data-am-gallery] .dot {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin: 0 2px;
+  border-radius: 50%;
+  background-color: greenyellow;
+  cursor: pointer;
+  -webkit-transition: opacity 200ms ease;
+  transition: opacity 200ms ease;
+}
+
+[data-am-gallery] .dot:hover { opacity: 0.8; color: #3a87ad;}
+
+[data-am-gallery] .prev, [data-am-gallery] .next {
+  position: absolute;
+  display: none;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  cursor: pointer;
+  -webkit-transition: all 200ms ease;
+  transition: all 200ms ease;
+  font-family: sans-serif;
+}
+
+[data-am-gallery] .prev:before, [data-am-gallery] .next:before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-size: 3vw;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+[data-am-gallery] .prev:hover, [data-am-gallery] .next:hover { background-color: rgba(255, 255, 255, 0.1); }
+
+[data-am-gallery] .prev {
+  left: 0;
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+}
+
+[data-am-gallery] .prev:before { content: "❮"; }
+
+[data-am-gallery] .next {
+  right: 0;
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+}
+
+[data-am-gallery] .next:before { content: "❯"; }
+
+[data-am-gallery]:hover .prev {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+
+[data-am-gallery]:hover .next {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+
+/* Gallery Modifiers (number of images) */
+/*
+Loop to generate modifiers on [data-am-gallery] for number of images (up to $max-images).
+This is required to handle the prev and next buttons.
+
+The slideshow will still function without a modifier set, but will lose it's prev and next buttons functionlity.
+*/
+
+[data-am-gallery~="5"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(5) ~ .prev-container .prev:nth-child(4) { display: block; }
+
+[data-am-gallery~="5"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(5) ~ .next-container .next:nth-child(1) { display: block; }
+
+[data-am-gallery~="5"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(4) ~ .prev-container .prev:nth-child(3) { display: block; }
+
+[data-am-gallery~="5"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(4) ~ .next-container .next:nth-child(5) { display: block; }
+
+[data-am-gallery~="5"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(3) ~ .prev-container .prev:nth-child(2) { display: block; }
+
+[data-am-gallery~="5"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(3) ~ .next-container .next:nth-child(4) { display: block; }
+
+[data-am-gallery~="5"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(2) ~ .prev-container .prev:nth-child(1) { display: block; }
+
+[data-am-gallery~="5"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(2) ~ .next-container .next:nth-child(3) { display: block; }
+
+[data-am-gallery~="5"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(1) ~ .prev-container .prev:nth-child(5) { display: block; }
+
+[data-am-gallery~="5"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(1) ~ .next-container .next:nth-child(2) { display: block; }
+
+[data-am-gallery~="4"] input[type="radio"]:nth-child(5), [data-am-gallery~="4"] .navigation .dot:nth-child(5), [data-am-gallery~="4"] .image:nth-child(5) { display: none !important; }
+
+[data-am-gallery~="4"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(4) ~ .prev-container .prev:nth-child(3) { display: block; }
+
+[data-am-gallery~="4"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(4) ~ .next-container .next:nth-child(1) { display: block; }
+
+[data-am-gallery~="4"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(3) ~ .prev-container .prev:nth-child(2) { display: block; }
+
+[data-am-gallery~="4"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(3) ~ .next-container .next:nth-child(4) { display: block; }
+
+[data-am-gallery~="4"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(2) ~ .prev-container .prev:nth-child(1) { display: block; }
+
+[data-am-gallery~="4"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(2) ~ .next-container .next:nth-child(3) { display: block; }
+
+[data-am-gallery~="4"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(1) ~ .prev-container .prev:nth-child(4) { display: block; }
+
+[data-am-gallery~="4"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(1) ~ .next-container .next:nth-child(2) { display: block; }
+
+[data-am-gallery~="3"] input[type="radio"]:nth-child(5), [data-am-gallery~="3"] .navigation .dot:nth-child(5), [data-am-gallery~="3"] .image:nth-child(5) { display: none !important; }
+
+[data-am-gallery~="3"] input[type="radio"]:nth-child(4), [data-am-gallery~="3"] .navigation .dot:nth-child(4), [data-am-gallery~="3"] .image:nth-child(4) { display: none !important; }
+
+[data-am-gallery~="3"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(3) ~ .prev-container .prev:nth-child(2) { display: block; }
+
+[data-am-gallery~="3"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(3) ~ .next-container .next:nth-child(1) { display: block; }
+
+[data-am-gallery~="3"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(2) ~ .prev-container .prev:nth-child(1) { display: block; }
+
+[data-am-gallery~="3"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(2) ~ .next-container .next:nth-child(3) { display: block; }
+
+[data-am-gallery~="3"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(1) ~ .prev-container .prev:nth-child(3) { display: block; }
+
+[data-am-gallery~="3"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(1) ~ .next-container .next:nth-child(2) { display: block; }
+
+[data-am-gallery~="2"] input[type="radio"]:nth-child(5), [data-am-gallery~="2"] .navigation .dot:nth-child(5), [data-am-gallery~="2"] .image:nth-child(5) { display: none !important; }
+
+[data-am-gallery~="2"] input[type="radio"]:nth-child(4), [data-am-gallery~="2"] .navigation .dot:nth-child(4), [data-am-gallery~="2"] .image:nth-child(4) { display: none !important; }
+
+[data-am-gallery~="2"] input[type="radio"]:nth-child(3), [data-am-gallery~="2"] .navigation .dot:nth-child(3), [data-am-gallery~="2"] .image:nth-child(3) { display: none !important; }
+
+[data-am-gallery~="2"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(2) ~ .prev-container .prev:nth-child(1) { display: block; }
+
+[data-am-gallery~="2"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(2) ~ .next-container .next:nth-child(1) { display: block; }
+
+[data-am-gallery~="2"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(1) ~ .prev-container .prev:nth-child(2) { display: block; }
+
+[data-am-gallery~="2"][data-am-gallery~="next-prev-navigation"] input[type="radio"]:checked:nth-child(1) ~ .next-container .next:nth-child(2) { display: block; }
+
+[data-am-gallery~="1"] .navigation { display: none; }
+
+/* Base Styling */
+
+body { margin: 0; }
+
+.container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <div data-am-gallery="{{ forloop.counter }} next-prev-navigation">
+
+    <!-- Radio -->
+      {% for image in slider_images %}
+    <input type="radio" name="gallery" id="img-{{ forloop.counter }}" checked />
+      {% endfor %}
+
+    <!-- Images -->
+    <div class="images">
+      {% for image in slider_images %}
+      <div class="image" style="background-image: url({{image.image.url}});">
+        <!-- Add content to images (sample) -->
+        <div style="position: absolute; top: 90%; left: 90%; transform: translate(-50%, -50%); color: white; font-family: sans-serif; text-align: center; text-shadow: 0 0 20px rgba(0,0,0,0.5);">
+          <h6 style="margin-top: 0; margin-bottom: 0.8vw; font-size: 5vw; font-family: Bitstream Vera Sans Mono, Monaco, Courier New, Courier, monospace; font-weight: bold;">
+
+          <a href="{% url 'portfolio:portfolio_image_list' %}" style="color:#ffe4af;" title="Gallery">
+            <span class="fa-stack fa-1x">
+              <i class="fa fa-spinner fa-pulse fa-fw fa-1x fa-stack-2x"></i>
+              <i class="fa fa-camera fa-stack-1x" aria-hidden="true"></i>
+            </span>
+          </a>
+          </h6>
+
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+      {% for image in slider_images %}
+      <label class="dot" for="img-{{ forloop.counter }}"></label>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-46156385-1', 'cssscript.com');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

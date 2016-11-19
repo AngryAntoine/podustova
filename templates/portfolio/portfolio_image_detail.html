@@ -1,0 +1,132 @@
+{% extends 'base_portfolio.html' %}
+{% load staticfiles %}
+{% block content%}
+{% include 'includes/portfolio_navbar.html' %}
+<style>
+    .sidebar {
+        border-right: 0px solid #eee;
+
+    }
+</style>
+<br><br><br>
+<div class="container-fluid" style="">
+  <div class="row">
+    <div class="col-xs-7 col-sm-6 col-md-8 main" style="position: static; margin-bottom: 20px; height: auto;" >
+      {% if user.is_superuser %}
+      {% if messages %}
+        <!--<ul>-->
+        <!--{% for message in messages %}-->
+          <!--<li {% if message.tags %} class="{{message.tags}}"{% endif %}>-->
+            <div class="alert alert-success" role="alert">{{message}}</div>
+        <!--{% endfor %}-->
+        <!--</ul>-->
+      {% endif %}
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+          <a href="javascript:history.back();">
+            <button type="button" class="btn btn-default">Back</button>
+          </a>
+        </div>
+        <div class="btn-group" role="group">
+          <a href="{% url 'portfolio:portfolio_image_update' instance.id instance.slug %}" style="color: black;">
+            <button type="button" class="btn btn-default">Edit Image</button>
+          </a>
+        </div>
+        <div class="btn-group" role="group">
+          <a href="{% url 'portfolio:portfolio_category_update' instance.category|lower %}" style="color: black;">
+            <button type="button" class="btn btn-default">Edit Group</button>
+          </a>
+        </div>
+        <div class="btn-group" role="group">
+          <a href="#">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+              Clear {{instance.name}} views
+            </button>
+          </a>
+          <!-- Modal -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content" style="background-color: #838168;">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Clear {{instance.name}} views</h4>
+                </div>
+                <div class="modal-body">
+                  You are going to clear {{instance.name}} views! Are you sure?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <a href="{% url 'portfolio:portfolio_image_clear_views' instance.id instance.slug %}">
+                    <button type="button" class="btn btn-danger">Clear anyway</button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="btn-group" role="group">
+          <a href="#"><!-- Button trigger modal -->
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModalDelete">
+              Delete {{instance.name}}
+            </button>
+          </a>
+          <!-- Modal -->
+          <div class="modal fade" id="myModalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content" style="background-color: #838168;">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalDeleteLabel">Delete {{instance.name}}</h4>
+                </div>
+                <div class="modal-body">
+                  You are going to delete {{instance.name}}! Are you sure?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <a href="{% url 'portfolio:portfolio_image_delete' instance.id instance.slug %}">
+                    <button type="button" class="btn btn-danger">Delete anyway</button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif  %}
+      <p>Category: {{instance.category}} | Name: {{instance.name}} | <span class="badge">Views: {{instance.views}}</span></p>
+      <img src="{{instance.image.url}}" alt="" style="max-width:70%; height: auto;" class="img-rounded">
+    </div>
+    <div class="col-xs-5 col-xs-offset-0 col-sm-6 col-sm-offset-6 col-md-4 col-md-offset-8 sidebar" id="trump">
+      <div class="trump" style="height: auto; max-height: 80%;">
+        <h3>Comments</h3>
+        {% if user.is_authenticated %}
+        <div id="disqus_thread"></div>
+        <script>
+
+        /**
+        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        /*
+        var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        */
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//olgapodustova.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        {% else %}
+          <p>Please register to read and leave comments</p>
+        {% endif %}
+          <!--<div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5" style="background-color: white; width: auto;"></div>-->
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content%}

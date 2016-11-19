@@ -1,0 +1,14 @@
+{% extends 'base_portfolio.html' %}
+{% load i18n %}
+{% load staticfiles %}
+{% block content%}
+{% include 'includes/portfolio_navbar.html' %}
+<br><br><br>
+<div class="container-fluid" style="">
+  <div class="row">
+    <div class="col-xs-8 col-xs-offset-2" >
+      <p>{{message}}</p>
+    </div>
+  </div>
+</div>
+{% endblock content%}

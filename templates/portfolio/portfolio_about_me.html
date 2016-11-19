@@ -1,0 +1,32 @@
+{% extends 'base_portfolio.html' %}
+{% load staticfiles %}
+{% load bootstrap %}
+{% block head_title %}
+  About Me
+{% endblock head_title %}
+{% block content%}
+{% include 'includes/portfolio_navbar.html' %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      {% for me in about_me %}
+      <img src="{% if me.image %}{{me.image.url}}{% endif %}" style="height: 250px;"><br>
+      {{me.title}}<br>
+      {{me.about_me}}<br>
+      {% endfor %}
+      {% if user.is_superuser  %}
+        <div class="form-group">
+          <a href="javascript:history.back();">
+            <button type="button" class="btn btn-default">Back</button>
+          </a>
+          {% for my in about_me %}
+          <a href="{% url 'portfolio:about_me_update' my.id %}">
+            <button type="submit" class="btn btn-success">Edit</button>
+          </a>
+          {% endfor %}
+        </div>
+      {% endif  %}
+    </div>
+  </div>
+</div>
+{% endblock content%}
