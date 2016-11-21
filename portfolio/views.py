@@ -218,7 +218,7 @@ def contact(request):
         sender = form.cleaned_data['sender']
         message = form.cleaned_data['message']
         copy = form.cleaned_data['copy']
-        recipients = ['tony1986@yandex.ru']
+        recipients = ['tony1986@yandex.ru', 'olga.podustova@gmail.com']
         if copy:
             recipients.append(sender)
         context = {
