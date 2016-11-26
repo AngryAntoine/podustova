@@ -227,7 +227,7 @@ def contact(request):
         }
         requests.post(
             "https://api.mailgun.net/v3/olgapodustova.herokuapp.com/messages",
-            auth=("api", "key-7bcfe4285460d2b83cd2bf13bf11c001"),
+            auth=("api", "key-*********************************"),
             data={"from": "Olga Podustova <postmaster@olgapodustova.herokuapp.com>",
                   "to": recipients,
                   "subject": subject,
