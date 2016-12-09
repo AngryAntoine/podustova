@@ -26,7 +26,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = env('DJANGO_SECRET_KEY')
-SECRET_KEY = 'oi$3$25sckz2ssk**sc5$y-9+q80y(n4-77a(t0&o!0s5n!f^c'
+SECRET_KEY = ''
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -96,9 +96,9 @@ WSGI_APPLICATION = 'podustova.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'olgapodustova',
-        'USER': 'olgapodustova',
-        'PASSWORD': 'olgapodustova',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -167,12 +167,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
 
 EMAIL_HOST = 'smtp.mailgun.org'
 EMAIL_HOST_USER = 'postmaster@olgapodustova.herokuapp.com'
-EMAIL_HOST_PASSWORD = 'e1027b96f9776bb5453f379faa818f76'
-EMAIL_PORT = 465
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = 'postmaster@olgapodustova.herokuapp.com'
 SERVER_EMAIL = 'antongramenko@gmail.com'
 
 EMAIL_BACKEND = 'django_mailgun_mime.backends.MailgunMIMEBackend'
-MAILGUN_API_KEY = 'key-7bcfe4285460d2b83cd2bf13bf11c001'
+MAILGUN_API_KEY = ''
 MAILGUN_DOMAIN_NAME = 'olgapodustova.herokuapp.com'
